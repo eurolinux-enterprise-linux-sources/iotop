@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 Name: iotop
 Version: 0.3.2
-Release: 3%{?dist}
+Release: 7%{?dist}
 Summary: Top like utility for I/O
 
 Group: Applications/System
@@ -20,10 +20,20 @@ Patch0: iotop-0.2-setuptools.patch
 #taken from upstream, rhbz#580972 - fix int size on ppc64
 Patch1: iotop-0.4-ppctypesize.patch
 
+#taken from upstream, rhbz#746240, for iotop < 0.4.4
+Patch2: iotop-0.4-perm.patch
+Patch3: iotop-0.3.2-nouser.patch
+Patch4: iotop-0.3.2-ppcprio.patch
+Patch5: iotop-0.3.2-localefix.patch
+
 %prep
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1 -b .perm
+%patch3 -p1 -b .nouser
+%patch4 -p1 -b .ppcprio
+%patch5 -p1 -b .localefix
 
 %build
 %{__python} setup.py build
@@ -39,6 +49,11 @@ show of behalf of which process is the I/O going on.
 rm -rf $RPM_BUILD_ROOT
 %{__python} setup.py install --root=${RPM_BUILD_ROOT}
 
+pushd $RPM_BUILD_ROOT
+mv usr/bin usr/sbin 
+mv .%{_mandir}/man1 .%{_mandir}/man8
+mv .%{_mandir}/man8/iotop.1 .%{_mandir}/man8/iotop.8
+popd
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -47,11 +62,25 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc COPYING NEWS README THANKS
-%{_bindir}/iotop
-%{_mandir}/man1/iotop.1.*
+%{_sbindir}/iotop
+%{_mandir}/man8/iotop.8.*
 %{python_sitelib}/*
 
 %changelog
+* Tue Sep 17 2013 Michal Hlavinka <mhlavink@redhat.com> - 0.3.2-7
+- fix for incorrect locale was incomplete (#849559)
+
+* Fri Sep 13 2013 Michal Hlavinka <mhlavink@redhat.com> - 0.3.2-6
+- PRIO field was not shown correctly on powerpc platforms (#826875)
+- iotop failed when locale was incorrect (#849559)
+- move iotop to sbin (#908149)
+
+* Thu Aug 15 2013 Michal Hlavinka <mhlavink@redhat.com> - 0.3.2-5
+- update man page wrt root privileges and fix typo in error message (#746240)
+
+* Tue Oct 02 2012 Michal Hlavinka <mhlavink@redhat.com> - 0.3.2-4
+- explain netlink permission denied error (#746240)
+
 * Tue May 04 2010 Michal Hlavinka <mhlavink@redhat.com> - 0.3.2-3
 - fix iotop for ppc64 (#580972)
 
@@ -92,8 +121,8 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Dec 28 2007 Adel Gadllah <adel.gadllah@gmail.com> 0.1-2
 - Fix traceback on xterm-color RH #400071
 
-* Sun Nov 3 2007 Adel Gadllah <adel.gadllah@gmail.com> 0.1-1
+* Sat Nov 3 2007 Adel Gadllah <adel.gadllah@gmail.com> 0.1-1
 - Fix version
 
-* Sun Nov 3 2007 Adel Gadllah <adel.gadllah@gmail.com> 20070930-1
+* Sat Nov 3 2007 Adel Gadllah <adel.gadllah@gmail.com> 20070930-1
 - Initial Build
