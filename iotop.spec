@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 Name: iotop
 Version: 0.3.2
-Release: 7%{?dist}
+Release: 9%{?dist}
 Summary: Top like utility for I/O
 
 Group: Applications/System
@@ -25,6 +25,9 @@ Patch2: iotop-0.4-perm.patch
 Patch3: iotop-0.3.2-nouser.patch
 Patch4: iotop-0.3.2-ppcprio.patch
 Patch5: iotop-0.3.2-localefix.patch
+Patch6: iotop-0.3.2-neghumsize.patch
+Patch7: iotop-0.3.2-batchprintutf8.patch
+Patch8: iotop-0.4.4-sigpipe.patch
 
 %prep
 %setup -q
@@ -34,6 +37,9 @@ Patch5: iotop-0.3.2-localefix.patch
 %patch3 -p1 -b .nouser
 %patch4 -p1 -b .ppcprio
 %patch5 -p1 -b .localefix
+%patch6 -p1 -b .neghumsize
+%patch7 -p1 -b .batchprintutf8
+%patch8 -p1 -b .sigpipe
 
 %build
 %{__python} setup.py build
@@ -67,6 +73,13 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Thu Nov 03 2016 Michal Hlavinka <mhlavink@redhat.com> - 0.3.2-9
+- allow printing of unicode characters in batch mode (#906149)
+- fix crash when using pipe (#1330965)
+
+* Thu Oct 20 2016 Michal Hlavinka <mhlavink@redhat.com> - 0.3.2-8
+- fix crash caused by negative size (#1283071)
+
 * Tue Sep 17 2013 Michal Hlavinka <mhlavink@redhat.com> - 0.3.2-7
 - fix for incorrect locale was incomplete (#849559)
 
