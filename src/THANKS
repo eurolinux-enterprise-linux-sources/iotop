@@ -1,0 +1,26 @@
+Iain Lea <iain@bricbrac.de>
+    Reported spelling errors, suggested --only.
+
+tropikhajma@gmail.com
+    Reported cosmetic bug: strip dirname from cmdline only on absolute paths.
+
+Roland Kletzing <devzero@web.de>
+    Reported crashing bug: successfully opening /proc/PID/cmdline does not imply
+we can read it (PID died between open() and read()).
+
+Paul Wise <pabs@debian.org>
+    Started the man page.
+
+Göran Uddeborg <goeran@uddeborg.se>
+    Reported that iotop was misbehaving with UTF-8 strings.
+
+Ryan Lovett <ryan@stat.berkeley.edu>
+    Contributed a bugfix: flush the output in batch mode, so that a potential
+output file is updated.
+
+Martin Bammer <mrbm74@gmail.com>
+    Initial implementation of the --time and --quiet options.
+
+Piotr Engelking <inkerman42@gmail.com>
+    Reported that iotop's ioprio_get syscall detection was buggy on 32bit
+userspace on a x86_64 kernel.
