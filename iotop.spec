@@ -1,18 +1,13 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 Name: iotop
 Version: 0.6
-Release: 4%{?dist}
+Release: 1%{?dist}
 Summary: Top like utility for I/O       
 
 Group: Applications/System          
 License: GPLv2+
 URL: http://guichaz.free.fr/iotop/            
 Source0: http://guichaz.free.fr/iotop/files/%{name}-%{version}.tar.bz2 
-
-# from upstream, for iotop <= 0.6, rhbz#1582821
-Patch1: iotop-0.6-splitline.patch
-Patch2: iotop-0.3.2-ppcprio.patch
-Patch3: iotop-0.6-aarch64prio.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -22,9 +17,6 @@ Requires: python
       
 %prep
 %setup
-%patch1 -p1 -b .splitline
-%patch2 -p1 -b .ppcprio
-%patch3 -p1 -b .aarch64prio
 
 %build
 %{__python} setup.py build
@@ -53,15 +45,6 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
-* Thu Aug 02 2018 Michal Hlavinka <mhlavink@redhat.com> - 0.6-4
-- fix prio field for ppc and aarch64 (#1610912, #1610914)
-
-* Mon Jul 09 2018 Michal Hlavinka <mhlavink@redhat.com> - 0.6-3
-- fix data value unpack with latest kernels (#1582821)
-
-* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 0.6-2
-- Mass rebuild 2013-12-27
-
 * Wed Mar 29 2013 Michal Hlavinka <mhlavink@redhat.com> - 0.6-1
 - iotop updated to 0.6
 
