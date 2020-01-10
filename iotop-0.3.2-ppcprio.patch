@@ -1,0 +1,21 @@
+diff -up iotop-0.6/iotop/ioprio.py.ppcprio iotop-0.6/iotop/ioprio.py
+--- iotop-0.6/iotop/ioprio.py.ppcprio	2018-08-02 15:17:46.523099123 +0200
++++ iotop-0.6/iotop/ioprio.py	2018-08-02 15:19:45.671660952 +0200
+@@ -32,7 +32,7 @@ IOPRIO_GET_ARCH_SYSCALL = [
+     ('i*86',        '*',  290),
+     ('ia64*',       '*', 1275),
+     ('parisc*',     '*',  268),
+-    ('powerpc*',    '*',  274),
++    ('ppc*',        '*',  274),
+     ('s390*',       '*',  283),
+     ('sparc*',      '*',  218),
+     ('sh*',         '*',  289),
+@@ -46,7 +46,7 @@ IOPRIO_SET_ARCH_SYSCALL = [
+     ('i*86',        '*',  289),
+     ('ia64*',       '*', 1274),
+     ('parisc*',     '*',  267),
+-    ('powerpc*',    '*',  273),
++    ('ppc*',        '*',  273),
+     ('s390*',       '*',  282),
+     ('sparc*',      '*',  196),
+     ('sh*',         '*',  288),
